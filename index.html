@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Resume Builder with Live Preview and PDF | Shakir Hussain</title>
+<meta name="description" content="Build a clean, ATS-friendly resume in minutes. Live A4 preview, three templates, a bullet-point checker and free PDF download. No sign-up, your data stays in your browser.">
+<link rel="canonical" href="https://ai-resume-tool.vercel.app/">
+<meta property="og:title" content="Free Resume Builder with Live Preview">
+<meta property="og:description" content="ATS-friendly templates, a bullet-point checker and free PDF download. No sign-up.">
+<meta name="theme-color" content="#0B1F3A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B1F3A'/%3E%3Cpath d='M20 18h18l8 8v20H20z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3Cpath d='M26 34h14M26 40h10' stroke='%23E8603C' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/"><span class="mark">CV</span>Resume Builder</a>
+  <div class="actions">
+    <select id="template" aria-label="Template">
+      <option value="classic">Classic</option>
+      <option value="modern">Modern</option>
+      <option value="compact">Compact</option>
+    </select>
+    <input type="color" id="accent" value="#0B1F3A" aria-label="Accent colour">
+    <button class="ghost" id="sample">Load example</button>
+    <button class="ghost" id="exportJson">Save file</button>
+    <label class="ghost file">Open file<input type="file" id="importJson" accept="application/json" hidden></label>
+    <button class="primary" id="pdf">Download PDF</button>
+  </div>
+</header>
+
+<main class="layout">
+  <form id="form" class="editor" autocomplete="on" onsubmit="return false">
+    <section class="panel">
+      <h2>Personal details</h2>
+      <div class="grid2">
+        <label>Full name<input name="name" placeholder="Ayesha Khan"></label>
+        <label>Job title<input name="title" placeholder="Frontend Developer"></label>
+        <label>Email<input name="email" type="email" placeholder="ayesha@example.com"></label>
+        <label>Phone<input name="phone" placeholder="+49 151 2345678"></label>
+        <label>Location<input name="location" placeholder="Berlin, Germany"></label>
+        <label>Website or LinkedIn<input name="link" placeholder="linkedin.com/in/ayesha"></label>
+      </div>
+      <label>Profile summary<textarea name="summary" rows="4" placeholder="Two or three sentences: what you do, for whom, and the result you are proud of."></textarea></label>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Experience</h2><button type="button" class="add" data-add="experience">+ Add job</button></div>
+      <div id="experience" class="list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Education</h2><button type="button" class="add" data-add="education">+ Add</button></div>
+      <div id="education" class="list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Skills &amp; languages</h2>
+      <label>Skills <small>(comma separated)</small><input name="skills" placeholder="React, TypeScript, Node.js, SQL"></label>
+      <label>Languages <small>(comma separated)</small><input name="languages" placeholder="English (C1), German (B1), Urdu (native)"></label>
+    </section>
+
+    <section class="panel checker">
+      <div class="panel-head"><h2>Resume checker</h2><span id="scoreBadge" class="badge">0</span></div>
+      <p class="hint">Recruiters skim. These checks help your bullet points pass both people and applicant tracking systems.</p>
+      <ul id="tips"></ul>
+    </section>
+    <p class="note">Everything stays in your browser. Nothing is uploaded.</p>
+  </form>
+
+  <div class="preview-wrap">
+    <div id="paper" class="paper classic"></div>
+  </div>
+</main>
+
+<template id="tpl-experience">
+  <div class="item">
+    <div class="grid2">
+      <label>Role<input data-k="role" placeholder="Frontend Developer"></label>
+      <label>Company<input data-k="company" placeholder="Acme GmbH"></label>
+      <label>Start<input data-k="start" placeholder="Jan 2023"></label>
+      <label>End<input data-k="end" placeholder="Present"></label>
+    </div>
+    <label>Achievements <small>(one per line)</small><textarea data-k="bullets" rows="4" placeholder="Rebuilt checkout in React, cutting drop-off by 18%"></textarea></label>
+    <div class="item-actions"><button type="button" data-move="-1">↑</button><button type="button" data-move="1">↓</button><button type="button" class="del" data-del>Remove</button></div>
+  </div>
+</template>
+<template id="tpl-education">
+  <div class="item">
+    <div class="grid2">
+      <label>Degree<input data-k="degree" placeholder="BS Computer Science"></label>
+      <label>School<input data-k="school" placeholder="University of Sargodha"></label>
+      <label>Start<input data-k="start" placeholder="2013"></label>
+      <label>End<input data-k="end" placeholder="2017"></label>
+    </div>
+    <div class="item-actions"><button type="button" data-move="-1">↑</button><button type="button" data-move="1">↓</button><button type="button" class="del" data-del>Remove</button></div>
+  </div>
+</template>
+
+<footer class="foot">Built by <a href="https://shakir-portfolio-azure.vercel.app" target="_blank" rel="noopener">Shakir Hussain</a>, full-stack developer. Need a custom web app? <a href="https://shakir-portfolio-azure.vercel.app/contact.html" target="_blank" rel="noopener">Get in touch</a>.</footer>
+<script src="app.js"></script>
+</body>
+</html>
